@@ -1,11 +1,7 @@
 package org.wit.boardgame.activities
 
 
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -108,23 +104,17 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
         return false
     }
 
-    internal inner class CustomInfoWindowAdapter : InfoWindowAdapter {
+    internal inner class CustomInfoWindowAdapter(inModel: PlacemarkModel) : InfoWindowAdapter {
         private var popup: View? = null
-        var  modelAdapter: PlacemarkModel? = null
-
-        constructor(inModel:PlacemarkModel) {
-            this.modelAdapter = inModel
-
-
-        }
+        var  modelAdapter: PlacemarkModel? = inModel
 
         override fun getInfoContents(marker: Marker): View? {
             if (popup == null) {
                 popup = layoutInflater.inflate(R.layout.infowindow, null)
             }
-            var nameView = popup?.findViewById<TextView>(R.id.infoname)
+            val nameView = popup?.findViewById<TextView>(R.id.infoname)
             nameView?.text = marker.title
-            var descView = popup?.findViewById<TextView>(R.id.infodesc)
+            val descView = popup?.findViewById<TextView>(R.id.infodesc)
             descView?.text = marker.snippet
             for (placemarkModel in app.placemarks.findAll()) {
                 if(placemarkModel.id == marker.tag) {
