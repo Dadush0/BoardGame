@@ -3,7 +3,9 @@ package org.wit.boardgame.activities
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -79,20 +81,17 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
         app.placemarks.findAll().forEach {
             model = it
             val loc = LatLng(it.lat, it.lng)
-            val source = ImageDecoder.createSource(contentResolver, it.image)
-            val bitmap = ImageDecoder.decodeBitmap(source)
-            val sizedBitmap = Bitmap.createScaledBitmap(bitmap, 200,200, false)
             val options = MarkerOptions()
-                .title(it.title)
+                .title(model.title)
                 .position(loc)
-                .snippet(it.description)
+                .snippet(model.description)
                 //.icon(BitmapDescriptorFactory.fromBitmap(sizedBitmap))
 
             map.setOnMarkerClickListener(this)
             val createdMarker = map.addMarker(options)
-            createdMarker?.tag= it.id
+            createdMarker?.tag= model.id
             map.setInfoWindowAdapter(CustomInfoWindowAdapter(it))
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, model.zoom))
         }
     }
 
@@ -100,18 +99,23 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
 
         contentBinding.currentTitle.text = marker.title
         contentBinding.currentDescription.text = marker.snippet
-        contentBinding.imageView.setImageURI(model.image)
-
-
+        for (placemarkModel in app.placemarks.findAll()) {
+            if(placemarkModel.id == marker.tag) {
+                contentBinding.imageView.setImageURI(placemarkModel.image)
+                break
+            }
+        }
         return false
     }
 
     internal inner class CustomInfoWindowAdapter : InfoWindowAdapter {
         private var popup: View? = null
-        var  it: PlacemarkModel? = null
+        var  modelAdapter: PlacemarkModel? = null
 
-        constructor(it:PlacemarkModel) {
-            this.it = it
+        constructor(inModel:PlacemarkModel) {
+            this.modelAdapter = inModel
+
+
         }
 
         override fun getInfoContents(marker: Marker): View? {
@@ -122,7 +126,13 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
             nameView?.text = marker.title
             var descView = popup?.findViewById<TextView>(R.id.infodesc)
             descView?.text = marker.snippet
-            popup?.findViewById<ImageView>(R.id.infoimage)?.setImageURI(it?.image)
+            for (placemarkModel in app.placemarks.findAll()) {
+                if(placemarkModel.id == marker.tag) {
+                    popup?.findViewById<ImageView>(R.id.infoimage)?.setImageURI(placemarkModel.image)
+                    break
+                }
+            }
+
 
             return popup
         }
