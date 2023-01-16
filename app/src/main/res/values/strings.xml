@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">On Board</string>
+    <string name="button_addPlacemark">Add Game</string>
+    <string name="hint_placemarkTitle">Game Title</string>
+    <string name="hint_placemarkDescription">Description </string>
+    <string name="menu_addPlacemark">Add</string>
+    <string name="menu_cancelPlacemark">Cancel</string>
+    <string name="enter_placemark_title"> Please enter a Game Title </string>
+    <string name="save_placemark"> Save Game </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_placemark_image">Select game image</string>
+    <string name="change_placemark_image">Change game image</string>
+    <string name="button_location">Set Location</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="menu_deletePlacemark">Delete</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="title_activity_placemark_maps">Map of All Games </string>
+    <string name="numberPlayers">Players</string>
+    <string name="time">Time</string>
+    <string name="OrganizerName">Name</string>
+    <string name="play">Players</string>
+    <string name="timex">Time</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
