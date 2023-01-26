@@ -9,12 +9,14 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.boardgame.R
+import org.wit.boardgame.activities.ui.login.LoginFragment
 import org.wit.boardgame.adapters.PlacemarkAdapter
 import org.wit.boardgame.adapters.PlacemarkListener
 import org.wit.boardgame.databinding.ActivityPlacemarkListBinding
 
 import org.wit.boardgame.main.MainApp
 import org.wit.boardgame.models.PlacemarkModel
+private var init: Boolean = true
 
 class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
 
@@ -22,19 +24,36 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     private lateinit var binding: ActivityPlacemarkListBinding
     private var position: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlacemarkListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.toolbar.title = title
-        setSupportActionBar(binding.toolbar)
+        setContentView(binding.root);
 
-        app = application as MainApp
+        if(init) {
+            var fr = supportFragmentManager?.beginTransaction();
+            fr?.replace(R.id.placemarklist, LoginFragment());
+            fr?.commit();
+            init = !init;
+        }
+        else {
+            //setContentView(binding.root)
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll(),this)
+            binding.toolbar.title = title
+            setSupportActionBar(binding.toolbar)
 
+            app = application as MainApp
+
+            val layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.layoutManager = layoutManager
+            binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll(), this)
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        init = !init;
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
