@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import org.wit.boardgame.R
 import org.wit.boardgame.activities.PlacemarkListActivity
 import org.wit.boardgame.databinding.FragmentLoginBinding

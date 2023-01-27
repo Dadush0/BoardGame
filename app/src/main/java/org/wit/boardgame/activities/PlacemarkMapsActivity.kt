@@ -13,13 +13,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.boardgame.R
+import org.wit.boardgame.activities.data.userOnline
 import org.wit.boardgame.databinding.ActivityPlacemarkMapsBinding
 import org.wit.boardgame.databinding.ContentPlacemarkMapsBinding
 import org.wit.boardgame.main.MainApp
 import org.wit.boardgame.models.PlacemarkModel
 
 
-class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
+class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private lateinit var binding: ActivityPlacemarkMapsBinding
     private lateinit var contentBinding: ContentPlacemarkMapsBinding
@@ -44,6 +45,32 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
         contentBinding.mapView.getMapAsync {
             map = it
             configureMap()
+        }
+
+        contentBinding.join.setOnClickListener() {
+            joinGame()
+        }
+    }
+
+    private fun joinGame() {
+        for (placemarkModel in app.placemarks.findAll()) {
+            if(contentBinding.currentTitle.text == placemarkModel.title) {
+                if(placemarkModel.userList.contains(userOnline)) {
+                    placemarkModel.userList.remove(userOnline)
+                    placemarkModel.spotsLeft++
+                    contentBinding.join.text = getString(R.string.join)
+
+                }
+                else {
+                    placemarkModel.userList.add(userOnline)
+                    placemarkModel.spotsLeft--
+                    contentBinding.join.text = getString(R.string.leave)
+                }
+
+
+
+
+            }
         }
     }
 
@@ -87,6 +114,7 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
             val createdMarker = map.addMarker(options)
             createdMarker?.tag= model.id
             map.setInfoWindowAdapter(CustomInfoWindowAdapter(it))
+            map.setOnMapClickListener(this)
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, model.zoom))
         }
     }
@@ -98,11 +126,37 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
         for (placemarkModel in app.placemarks.findAll()) {
             if(placemarkModel.id == marker.tag) {
                 contentBinding.imageView.setImageURI(placemarkModel.image)
+                if(placemarkModel.spotsLeft == 0 && !placemarkModel.userList.contains(userOnline)) {
+                    contentBinding.join.isEnabled = false
+                    contentBinding.join.setBackgroundColor(getColor(R.color.grey))
+                }
+                else if(placemarkModel.userList.contains(userOnline)){
+                    contentBinding.join.isEnabled = true
+                    contentBinding.join.text = getString(R.string.leave)
+                    contentBinding.join.setBackgroundColor(getColor(R.color.black))
+                }
+                else {
+                    contentBinding.join.isEnabled = true
+                    contentBinding.join.setBackgroundColor(getColor(R.color.black))
+                }
                 break
             }
         }
+        contentBinding.join.visibility = View.VISIBLE
+        contentBinding.imageView.visibility = View.VISIBLE
+
+
         return false
     }
+
+    override fun onMapClick(point: LatLng) {
+        contentBinding.join.visibility = View.INVISIBLE
+        contentBinding.imageView.visibility = View.INVISIBLE
+        contentBinding.currentTitle.text = ""
+        contentBinding.currentDescription.text = ""
+    }
+
+
 
     internal inner class CustomInfoWindowAdapter(inModel: PlacemarkModel) : InfoWindowAdapter {
         private var popup: View? = null
@@ -134,6 +188,7 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
 
     }
 }
+
 
 
 

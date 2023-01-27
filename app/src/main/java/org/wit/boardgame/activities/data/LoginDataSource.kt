@@ -13,6 +13,7 @@ import java.util.UUID
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
+var userOnline : String = ""
 class LoginDataSource constructor(context: Context) {
 
 
@@ -41,6 +42,7 @@ class LoginDataSource constructor(context: Context) {
         val loggedInUser = LoggedInUser(UUID.randomUUID().toString(), username, password)
 
         return if(retrieveAccount(loggedInUser)) {
+            userOnline = username
             Result.Success(loggedInUser)
         } else {
             Result.Error(Exception(R.string.login_failed.toString()))

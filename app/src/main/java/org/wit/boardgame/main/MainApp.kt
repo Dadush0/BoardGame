@@ -1,5 +1,6 @@
 package org.wit.boardgame.main
 import android.app.Application
+import org.wit.boardgame.activities.data.model.LoggedInUser
 import org.wit.boardgame.models.PlacemarkJSONStore
 import org.wit.boardgame.models.PlacemarkStore
 import timber.log.Timber

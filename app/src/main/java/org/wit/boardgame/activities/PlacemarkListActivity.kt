@@ -6,17 +6,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.boardgame.R
+import org.wit.boardgame.activities.ui.login.LoggedInUserView
 import org.wit.boardgame.activities.ui.login.LoginFragment
+import org.wit.boardgame.activities.ui.login.LoginViewModel
+import org.wit.boardgame.activities.ui.login.LoginViewModelFactory
 import org.wit.boardgame.adapters.PlacemarkAdapter
 import org.wit.boardgame.adapters.PlacemarkListener
 import org.wit.boardgame.databinding.ActivityPlacemarkListBinding
 
 import org.wit.boardgame.main.MainApp
 import org.wit.boardgame.models.PlacemarkModel
-private var init: Boolean = true
+var init: Boolean = true
 
 class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
 
@@ -29,7 +37,6 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPlacemarkListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         if(init) {
             val fr = supportFragmentManager.beginTransaction()
             fr.replace(R.id.placemarklist, LoginFragment())
@@ -47,6 +54,7 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
             val layoutManager = LinearLayoutManager(this)
             binding.recyclerView.layoutManager = layoutManager
             binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll(), this)
+
         }
 
     }
@@ -113,4 +121,5 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
             ActivityResultContracts.StartActivityForResult()
         )    { }
 }
+
 

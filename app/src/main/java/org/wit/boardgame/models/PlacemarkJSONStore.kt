@@ -52,6 +52,7 @@ class PlacemarkJSONStore(private val context: Context) : PlacemarkStore {
             foundPlacemark.Organizer = placemark.Organizer
             foundPlacemark.time = placemark.time
             foundPlacemark.numbP = placemark.numbP
+            foundPlacemark.spotsLeft = placemark.spotsLeft
             foundPlacemark.image = placemark.image
             foundPlacemark.lat = placemark.lat
             foundPlacemark.lng = placemark.lng

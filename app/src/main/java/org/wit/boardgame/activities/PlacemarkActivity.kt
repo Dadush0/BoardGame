@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.boardgame.R
+import org.wit.boardgame.activities.data.userOnline
 import org.wit.boardgame.databinding.ActivityPlacemarkBinding
 import org.wit.boardgame.helpers.showImagePicker
 import org.wit.boardgame.main.MainApp
@@ -55,6 +56,7 @@ class PlacemarkActivity : AppCompatActivity(){
             placemark.title = binding.placemarkTitle.text.toString()
             placemark.description = binding.description.text.toString()
             placemark.numbP = binding.NumP.text.toString()
+            placemark.spotsLeft = placemark.numbP.toInt()
             placemark.Organizer = binding.Organizer.text.toString()
             placemark.time = binding.TimeID.text.toString()
             if (placemark.title.isEmpty()) {
