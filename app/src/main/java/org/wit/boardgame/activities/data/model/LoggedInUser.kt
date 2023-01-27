@@ -5,5 +5,6 @@ package org.wit.boardgame.activities.data.model
  */
 data class LoggedInUser(
     val userId: String,
-    val displayName: String
+    val displayName: String,
+    val password: String,
 )

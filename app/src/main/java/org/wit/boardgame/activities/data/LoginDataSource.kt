@@ -5,10 +5,9 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
-import org.wit.boardgame.activities.PlacemarkListActivity
+import org.wit.boardgame.R
 import org.wit.boardgame.activities.data.model.LoggedInUser
-import org.wit.boardgame.activities.ui.login.LoginFragment
-import java.io.IOException
+import java.util.UUID
 
 
 /**
@@ -34,25 +33,17 @@ class LoginDataSource constructor(context: Context) {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
 
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
     fun login(username: String, password: String): Result<LoggedInUser> {
-        try {
-            // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser("", username)
-            retrieveAccount(fakeUser)
-            if(false) {
+        val loggedInUser = LoggedInUser(UUID.randomUUID().toString(), username, password)
 
-            }
-            else {
-                storeAccount(fakeUser)
-            }
-
-            return Result.Success(fakeUser)
-        } catch (e: Throwable) {
-            return Result.Error(IOException("Error logging in", e))
+        return if(retrieveAccount(loggedInUser)) {
+            Result.Success(loggedInUser)
+        } else {
+            Result.Error(Exception(R.string.login_failed.toString()))
         }
     }
 
@@ -62,21 +53,27 @@ class LoginDataSource constructor(context: Context) {
         // TODO: revoke authentication
     }
 
-    fun storeAccount(user: LoggedInUser) {
-
-
+    private fun storeAccount(user: LoggedInUser) {
         // use the shared preferences and editor as you normally would
         val prefsEditor = sharedPreferences.edit()
         val gson = Gson()
         val json = gson.toJson(user)
-        prefsEditor.putString("User", json)
-        prefsEditor.commit()
+        prefsEditor.putString(user.displayName, json)
+        prefsEditor.apply()
     }
 
-    fun retrieveAccount(user: LoggedInUser) {
+    private fun retrieveAccount(user: LoggedInUser): Boolean {
 
         val gson = Gson()
-        val json: String? = sharedPreferences.getString("User", "")
+        val json: String? = sharedPreferences.getString(user.displayName, "")
+        if(json == "") {
+            storeAccount(user)
+            return true
+        }
         val obj: LoggedInUser = gson.fromJson(json, LoggedInUser::class.java)
+        if(obj.password == user.password) {
+            return true
+        }
+        return false
     }
 }
