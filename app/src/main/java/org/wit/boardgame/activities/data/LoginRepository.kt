@@ -1,5 +1,10 @@
 package org.wit.boardgame.activities.data
 
+import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.google.gson.Gson
+import org.wit.boardgame.activities.PlacemarkListActivity
 import org.wit.boardgame.activities.data.model.LoggedInUser
 
 /**
@@ -8,6 +13,7 @@ import org.wit.boardgame.activities.data.model.LoggedInUser
  */
 
 class LoginRepository(val dataSource: LoginDataSource) {
+
 
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
@@ -43,4 +49,6 @@ class LoginRepository(val dataSource: LoginDataSource) {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }
+
+
 }
