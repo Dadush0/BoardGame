@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import org.wit.boardgame.R
 import org.wit.boardgame.activities.data.LoginRepository
-import org.wit.boardgame.activities.data.Result
+import org.wit.boardgame.activities.data.Result.*
 
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -21,7 +21,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(username, password)
 
-        if (result is Result.Success) {
+        if (result is Success) {
             _loginResult.value =
                 LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
         } else {

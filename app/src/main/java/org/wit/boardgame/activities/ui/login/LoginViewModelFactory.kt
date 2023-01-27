@@ -1,10 +1,8 @@
 package org.wit.boardgame.activities.ui.login
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.wit.boardgame.activities.PlacemarkListActivity
 import org.wit.boardgame.activities.data.LoginDataSource
 import org.wit.boardgame.activities.data.LoginRepository
 
@@ -14,12 +12,12 @@ import org.wit.boardgame.activities.data.LoginRepository
  */
 class LoginViewModelFactory constructor(context: Context) : ViewModelProvider.Factory {
 
-    lateinit var mContext: Context
+    private lateinit var mContext: Context
     init {
         try {
             mContext = context
 
-        } catch (e: Exception) {
+        } catch (_: Exception) {
 
         }
     }

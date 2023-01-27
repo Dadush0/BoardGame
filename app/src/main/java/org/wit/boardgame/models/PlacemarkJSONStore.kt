@@ -21,7 +21,7 @@ fun generateRandomId(): Long {
 
 class PlacemarkJSONStore(private val context: Context) : PlacemarkStore {
 
-    var placemarks = mutableListOf<PlacemarkModel>()
+    private var placemarks = mutableListOf<PlacemarkModel>()
 
     init {
         if (exists(context, JSON_FILE)) {
@@ -45,7 +45,7 @@ class PlacemarkJSONStore(private val context: Context) : PlacemarkStore {
 
     override fun update(placemark: PlacemarkModel) {
         val placemarksList = findAll() as ArrayList<PlacemarkModel>
-        var foundPlacemark: PlacemarkModel? = placemarksList.find { p -> p.id == placemark.id }
+        val foundPlacemark: PlacemarkModel? = placemarksList.find { p -> p.id == placemark.id }
         if (foundPlacemark != null) {
             foundPlacemark.title = placemark.title
             foundPlacemark.description = placemark.description

@@ -28,13 +28,13 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlacemarkListBinding.inflate(layoutInflater)
-        setContentView(binding.root);
+        setContentView(binding.root)
 
         if(init) {
-            var fr = supportFragmentManager?.beginTransaction();
-            fr?.replace(R.id.placemarklist, LoginFragment());
-            fr?.commit();
-            init = !init;
+            val fr = supportFragmentManager.beginTransaction()
+            fr.replace(R.id.placemarklist, LoginFragment())
+            fr.commit()
+            init = !init
         }
         else {
             //setContentView(binding.root)
@@ -53,7 +53,7 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        init = !init;
+        init = !init
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -85,10 +85,10 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
             }
         }
 
-    override fun onPlacemarkClick(placemark: PlacemarkModel, pos : Int) {
+    override fun onPlacemarkClick(placemark: PlacemarkModel, position : Int) {
         val launcherIntent = Intent(this, PlacemarkActivity::class.java)
         launcherIntent.putExtra("placemark_edit", placemark)
-        position = pos
+        this.position = position
         getClickResult.launch(launcherIntent)
     }
 

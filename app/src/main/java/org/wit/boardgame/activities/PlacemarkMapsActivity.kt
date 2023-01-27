@@ -24,8 +24,8 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
     private lateinit var binding: ActivityPlacemarkMapsBinding
     private lateinit var contentBinding: ContentPlacemarkMapsBinding
     lateinit var app: MainApp
-    lateinit var map: GoogleMap
-    lateinit var model: PlacemarkModel
+    private lateinit var map: GoogleMap
+    private lateinit var model: PlacemarkModel
 
 
 
@@ -107,6 +107,7 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
     internal inner class CustomInfoWindowAdapter(inModel: PlacemarkModel) : InfoWindowAdapter {
         private var popup: View? = null
         var  modelAdapter: PlacemarkModel? = inModel
+
 
         override fun getInfoContents(marker: Marker): View? {
             if (popup == null) {

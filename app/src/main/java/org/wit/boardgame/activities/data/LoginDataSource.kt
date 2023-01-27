@@ -16,8 +16,8 @@ import java.util.UUID
 class LoginDataSource constructor(context: Context) {
 
 
-    lateinit var mContext: Context
-     private lateinit var masterKey: MasterKey
+    private lateinit var mContext: Context
+    private lateinit var masterKey: MasterKey
     private lateinit var sharedPreferences: SharedPreferences
     init {
         try {

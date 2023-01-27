@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
 import org.wit.boardgame.R
 import org.wit.boardgame.activities.PlacemarkListActivity
 import org.wit.boardgame.databinding.FragmentLoginBinding
@@ -32,7 +30,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,8 +40,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this.requireContext()))
-            .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this.requireContext()))[LoginViewModel::class.java]
 
         val usernameEditText = binding.username
         val passwordEditText = binding.password
@@ -120,11 +117,11 @@ class LoginFragment : Fragment() {
 
         val appContext = context?.applicationContext ?: return
 
-        val transaction = activity?.supportFragmentManager?.beginTransaction();
-        transaction?.remove(this);
-        transaction?.commit();
-        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show();
-        activity?.startActivityFromFragment(this, Intent(activity, PlacemarkListActivity::class.java),0);
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.remove(this)
+        transaction?.commit()
+        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        activity?.startActivityFromFragment(this, Intent(activity, PlacemarkListActivity::class.java),0)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

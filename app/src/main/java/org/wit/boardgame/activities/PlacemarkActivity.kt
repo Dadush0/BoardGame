@@ -20,9 +20,9 @@ import timber.log.Timber.i
 
 class PlacemarkActivity : AppCompatActivity(){
     private lateinit var binding: ActivityPlacemarkBinding
-    var placemark = PlacemarkModel()
+    private var placemark = PlacemarkModel()
     lateinit var app: MainApp
-    var edit = false
+    private var edit = false
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
@@ -51,7 +51,7 @@ class PlacemarkActivity : AppCompatActivity(){
             }
         }
 
-        binding.btnAdd.setOnClickListener() {
+        binding.btnAdd.setOnClickListener {
             placemark.title = binding.placemarkTitle.text.toString()
             placemark.description = binding.description.text.toString()
             placemark.numbP = binding.NumP.text.toString()

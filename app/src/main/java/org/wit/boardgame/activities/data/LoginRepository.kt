@@ -1,10 +1,5 @@
 package org.wit.boardgame.activities.data
 
-import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
-import com.google.gson.Gson
-import org.wit.boardgame.activities.PlacemarkListActivity
 import org.wit.boardgame.activities.data.model.LoggedInUser
 
 /**

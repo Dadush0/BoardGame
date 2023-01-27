@@ -28,7 +28,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        location = intent.extras?.getParcelable<Location>("location")!!
+        location = intent.extras?.getParcelable("location")!!
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -56,6 +56,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMarkerDragStart(p0: Marker) {  }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
 
         val resultIntent = Intent()
